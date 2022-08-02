@@ -11,11 +11,11 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('homes', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); //Название
+            $table->string('title')->nullable(false); //Название
             $table->string('street'); //Улица
             $table->string('district'); //Район
             $table->string('city'); //Город
@@ -33,7 +33,8 @@ return new class extends Migration
             $table->string('condition'); //Состояние
             $table->text('description'); //Описание
             $table->text('images'); //Фото
-            $table->unsignedBigInteger('seller_id'); //Id продавца
+            $table->integer('currency'); //Цена
+            $table->unsignedBigInteger('seller_id')->default(1); //Id продавца
             $table->timestamps();
 
             $table->foreign('seller_id')->references('id')->on('sellers');
@@ -45,7 +46,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('homes');
     }

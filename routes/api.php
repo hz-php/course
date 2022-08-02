@@ -21,5 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', 'App\Http\Controllers\Auth\UserAuthController@register');
 Route::post('/login', 'App\Http\Controllers\Auth\UserAuthController@login');
 
-Route::apiResource('/home','App\Http\Controllers\Api\HomeController')->middleware('auth:api');
-
+Route::apiResource('/home', 'App\Http\Controllers\Api\V1\HomeController')->middleware('auth:api');

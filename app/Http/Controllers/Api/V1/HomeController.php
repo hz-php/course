@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\HomeStoreRequest;
 use App\Http\Resources\HomeResource;
 use App\Models\Home;
 use Illuminate\Http\Request;
@@ -20,25 +19,24 @@ class HomeController extends Controller
         $homes = Home::all();
 
         return response([
-            'homes' => HomeResource::collection($homes),
-            'message' => 'Successful'
+            'Homes' => HomeResource::collection($homes),
+            'message' => 'Success'
         ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HomeStoreRequest $request)
+    public function store(Request $request)
     {
-
         $data = $request->all();
         $home = Home::create($data);
 
         return response([
-            'home' => new HomeResource($home),
+            'home' => new HomeResource($data),
             'message' => 'Success'
         ], 200);
     }
@@ -46,21 +44,22 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Home  $home
+     * @param \App\Models\Home $home
      * @return \Illuminate\Http\Response
      */
     public function show(Home $home)
     {
         return response([
             'home' => new HomeResource($home),
-            'message' => 'Success'], 200);
+            'message' => 'Succes'
+        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Home  $home
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Home $home
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Home $home)
@@ -68,7 +67,7 @@ class HomeController extends Controller
         $home->update($request->all());
 
         return response([
-            'home' => new Home($home),
+            'home' => new HomeResource($home),
             'message' => 'Success'
         ], 200);
     }
@@ -76,15 +75,13 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Home  $home
+     * @param \App\Models\Home $home
      * @return \Illuminate\Http\Response
      */
     public function destroy(Home $home)
     {
-        $home->delete();
+       $home->delete();
 
-        return response([
-           'message' => 'Home deleted'
-        ]);
+       return response(['message' => 'Home deleted']);
     }
 }

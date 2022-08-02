@@ -8,11 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Home extends Model
 {
     use HasFactory;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
     protected $fillable = [
         'title',
         'street',
@@ -22,6 +18,7 @@ class Home extends Model
         'how_many_rooms',
         'total_area',
         'ceiling_height',
+        'plot_area',
         'how_many_flors',
         'how_many_flors_house',
         'year_of_construction',
@@ -31,7 +28,5 @@ class Home extends Model
         'condition',
         'description',
         'images',
-        'seller_id',
-
     ];
 }

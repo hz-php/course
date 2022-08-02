@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
-            $table->string('email')->nullable(false)->unique();
-            $table->string('phone')->nullable(false)->unique();
+            $table->string('email')->nullable(false);
+            $table->string('phone')->nullable(false);
             $table->timestamps();
         });
     }
