@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Home extends Model
 {
     use HasFactory;
-
+    public function credits()
+    {
+        return $this->hasMany(Credit::class);
+    }
     protected $fillable = [
         'title',
         'street',
@@ -28,5 +31,7 @@ class Home extends Model
         'condition',
         'description',
         'images',
+        'currency',
+        'credit_id'
     ];
 }

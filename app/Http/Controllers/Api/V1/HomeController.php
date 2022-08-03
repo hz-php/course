@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HomeCreateRequest;
 use App\Http\Resources\HomeResource;
+use App\Models\Credit;
 use App\Models\Home;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,7 +17,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): object
     {
         $homes = Home::all();
 
@@ -30,9 +33,11 @@ class HomeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HomeCreateRequest $request): object
     {
         $data = $request->all();
+
+        $data['seller_id'] = Auth::user()->id;
         $home = Home::create($data);
 
         return response([
@@ -47,10 +52,15 @@ class HomeController extends Controller
      * @param \App\Models\Home $home
      * @return \Illuminate\Http\Response
      */
-    public function show(Home $home)
+    public function show(Home $home): object
     {
+        $credits = Credit::select('name_bank', 'percent', 'name_credit')
+            ->where('min_summ', '<=', $home['currency'])
+            ->where('max_summ', '>=', $home['currency'])
+            ->get();
         return response([
             'home' => new HomeResource($home),
+            'banks' => $credits,
             'message' => 'Succes'
         ], 200);
     }
@@ -62,7 +72,7 @@ class HomeController extends Controller
      * @param \App\Models\Home $home
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Home $home)
+    public function update(Request $request, Home $home): object
     {
         $home->update($request->all());
 
@@ -80,8 +90,8 @@ class HomeController extends Controller
      */
     public function destroy(Home $home)
     {
-       $home->delete();
+        $home->delete();
 
-       return response(['message' => 'Home deleted']);
+        return response(['message' => 'Home deleted']);
     }
 }

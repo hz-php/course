@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('homes', function (Blueprint $table) {
             $table->id();
@@ -33,8 +33,8 @@ return new class extends Migration
             $table->string('condition'); //Состояние
             $table->text('description'); //Описание
             $table->text('images'); //Фото
-            $table->integer('currency'); //Цена
-            $table->unsignedBigInteger('seller_id')->default(1); //Id продавца
+            $table->float('currency'); //Цена
+            $table->bigInteger('seller_id')->unsigned()->nullable(true); //Id продавца
             $table->timestamps();
 
             $table->foreign('seller_id')->references('id')->on('sellers');
@@ -46,7 +46,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('homes');
     }
