@@ -19,7 +19,9 @@ class HomeController extends Controller
      */
     public function index(): object
     {
-        $homes = Home::all();
+        $homes = \Cache::remember('homes', 60*60*12, function () {
+            return Home::all();
+        });
 
         return response([
             'Homes' => HomeResource::collection($homes),
@@ -52,11 +54,12 @@ class HomeController extends Controller
      * @param \App\Models\Home $home
      * @return \Illuminate\Http\Response
      */
-    public function show(Home $home): object
+    public function show($id): object
     {
+        $home = Home::findOrFail($id);
         $credits = Credit::select('name_bank', 'percent', 'name_credit')
-            ->where('min_summ', '<=', $home['currency'])
-            ->where('max_summ', '>=', $home['currency'])
+            ->where('min_summ', '<=', $home->currency)
+            ->where('max_summ', '>=', $home->currency)
             ->get();
         return response([
             'home' => new HomeResource($home),
