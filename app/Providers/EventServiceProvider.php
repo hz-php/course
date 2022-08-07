@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Favorite;
 use App\Models\Home;
+use App\Observers\FavoriteObserver;
 use App\Observers\HomeObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Home::observe(HomeObserver::class);
+        Favorite::observe(FavoriteObserver::class);
     }
 
     /**

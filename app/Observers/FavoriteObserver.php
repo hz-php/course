@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use Illuminate\Support\Facades\Redis;
 
-class HomeObserver
+class FavoriteObserver
 {
     /**
      * Handle the Favorite "created" event.
@@ -13,6 +13,7 @@ class HomeObserver
      */
     public function created()
     {
-        Redis::flushdb('homes');
+        $user_id = \Auth::id();
+        Redis::del('favorite' . ' ' . $user_id);
     }
 }

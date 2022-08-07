@@ -9,6 +9,7 @@ use App\Models\Credit;
 use App\Models\Home;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class HomeController extends Controller
 {
@@ -19,12 +20,15 @@ class HomeController extends Controller
      */
     public function index(): object
     {
-        $homes = \Cache::remember('homes', 60*60*12, function () {
-            return Home::all();
-        });
-
+        if (empty(Redis::get('homes'))) {
+            Redis::set('homes', (Home::select('*')->get()->toJson()));
+        }
+        $homes = Redis::get('homes');
+        if (empty($homes)) {
+            $homes = Home::all();
+        }
         return response([
-            'Homes' => HomeResource::collection($homes),
+            'Homes' => json_decode($homes),
             'message' => 'Success'
         ], 200);
     }
