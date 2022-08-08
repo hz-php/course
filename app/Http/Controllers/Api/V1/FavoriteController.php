@@ -16,7 +16,7 @@ class FavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): object
     {
         $user_id = Auth::id();
         $products = Favorite::select('home_id')->where('user_id', '=', $user_id)->get()->toJson();
@@ -39,7 +39,7 @@ class FavoriteController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): object
     {
         $data = $request->all();
         $data['user_id'] = Auth::id();
@@ -56,7 +56,7 @@ class FavoriteController extends Controller
      * @param Request $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): object
     {
       $user_id = Auth::id();
       $prod = Favorite::where('user_id', '=', $user_id)

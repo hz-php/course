@@ -16,13 +16,11 @@ return new class extends Migration
         Schema::create('compares', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->bigInteger('first_porduct_id')->unsigned();
-            $table->bigInteger('second_product_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('first_porduct_id')->references('id')->on('homes');
-            $table->foreign('second_product_id')->references('id')->on('homes');
+            $table->foreign('porduct_id')->references('id')->on('homes');
         });
     }
 

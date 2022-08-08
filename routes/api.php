@@ -35,3 +35,10 @@ Route::middleware('auth:api')->prefix('v1')->group(function () {
     Route::post('/favorite/add', [\App\Http\Controllers\Api\V1\FavoriteController::class, 'store']);
     Route::delete('favorite/delete', [\App\Http\Controllers\Api\V1\FavoriteController::class, 'destroy']);
 });
+
+Route::middleware('auth:api')->prefix('v1')->group(function () {
+    Route::get('/compare', [\App\Http\Controllers\Api\V1\CompareController::class, 'index']);
+    Route::post('/compare/add', [\App\Http\Controllers\Api\V1\CompareController::class, 'store']);
+    Route::delete('/compare/destroy', [\App\Http\Controllers\Api\V1\CompareController::class, 'destroy']);
+    Route::delete('/compare/del', [\App\Http\Controllers\Api\V1\CompareController::class, 'deleteOne']);
+});

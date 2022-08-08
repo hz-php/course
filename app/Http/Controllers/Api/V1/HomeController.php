@@ -44,7 +44,7 @@ class HomeController extends Controller
         $data = $request->all();
 
         $data['seller_id'] = Auth::user()->id;
-        $home = Home::create($data);
+        Home::create($data);
 
         return response([
             'home' => new HomeResource($data),
