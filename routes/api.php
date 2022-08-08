@@ -31,7 +31,6 @@ Route::middleware('auth:api')->prefix('v1')->group(function () {
 
 Route::middleware('auth:api')->prefix('v1')->group(function () {
     Route::get('/favorite/', [\App\Http\Controllers\Api\V1\FavoriteController::class, 'index']);
-    Route::get('/faforite/{id}', [\App\Http\Controllers\Api\V1\FavoriteController::class, 'show']);
     Route::post('/favorite/add', [\App\Http\Controllers\Api\V1\FavoriteController::class, 'store']);
     Route::delete('favorite/delete', [\App\Http\Controllers\Api\V1\FavoriteController::class, 'destroy']);
 });

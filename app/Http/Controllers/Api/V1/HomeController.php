@@ -42,8 +42,8 @@ class HomeController extends Controller
     public function store(HomeCreateRequest $request): object
     {
         $data = $request->all();
+        $data['seller_id'] = Auth::id();
 
-        $data['seller_id'] = Auth::user()->id;
         Home::create($data);
 
         return response([

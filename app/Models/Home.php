@@ -32,6 +32,7 @@ class Home extends Model
         'description',
         'images',
         'currency',
-        'credit_id'
+        'credit_id',
+        'seller_id'
     ];
 }

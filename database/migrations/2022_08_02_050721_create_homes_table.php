@@ -34,10 +34,10 @@ return new class extends Migration
             $table->text('description'); //Описание
             $table->text('images'); //Фото
             $table->float('currency'); //Цена
-            $table->bigInteger('seller_id')->unsigned()->nullable(true); //Id продавца
+            $table->integer('seller_id')->unsigned()->nullable(true); //Id продавца
             $table->timestamps();
 
-            $table->foreign('seller_id')->references('id')->on('sellers');
+            $table->foreign('seller_id')->references('id')->on('users');
         });
     }
 

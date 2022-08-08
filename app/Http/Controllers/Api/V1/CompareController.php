@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CompareListResource;
 use App\Models\Compare;
+use App\Models\Home;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,9 +18,15 @@ class CompareController extends Controller
      */
     public function index(): object
     {
-        $compare_list = Compare::select('product_id')
+        $product_id = Compare::select('product_id')
             ->where('user_id', '=', Auth::id())->get();
-
+        if (count($product_id) > 1) {
+            foreach ($product_id as $id) {
+                $compare_list[] = Home::where('id', '=', $id->product_id)->get();
+            }
+        } else {
+            $compare_list[] = Home::where('id', '=', $product_id->product_id)->get();
+        }
         return response([
             'Compare list' => new CompareListResource($compare_list),
             'message' => 'Success'
@@ -74,7 +81,7 @@ class CompareController extends Controller
             ->where('product_id', '=', $request->product_id);
         Compare::destroy($product_compare);
         return response([
-           'Message' => 'Deleted'
+            'Message' => 'Deleted'
         ]);
     }
 }

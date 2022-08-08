@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FavoriteResource;
 use App\Models\Favorite;
+use App\Models\Home;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
@@ -19,13 +20,25 @@ class FavoriteController extends Controller
     public function index(): object
     {
         $user_id = Auth::id();
-        $products = Favorite::select('home_id')->where('user_id', '=', $user_id)->get()->toJson();
+        $products = Favorite::all()->where('user_id', '=', $user_id);
         if (empty(Redis::get('favorite' . ' ' . $user_id))) {
-            Redis::set('favorite' . ' ' . $user_id, $products);
+
+            foreach ($products as $home) {
+                $home_r[] = Home::where('id', '=', $home->home_id)->get();
+                Redis::set('favorite' . ' ' . $user_id, json_encode($home_r));
+            }
         }
         $favorite_table = Redis::get('favorite' . ' ' . $user_id);
-        if (empty('favorite' . ' ' . $user_id)) {
-            $favorite_table = Favorite::all();
+        if (empty(Redis::get('favorite' . ' ' . $user_id))) {
+            $favorite_prod_id = Favorite::select('home_id')
+                ->where('user_id', '=', Auth::id())->get();
+           if (count($favorite_prod_id) > 1) {
+               foreach ($favorite_prod_id as $pr_id) {
+                   $favorite_table[] = Home::all()->where('id', '=', $pr_id->home_id);
+               }
+           } else {
+               $favorite_table = Home::all()->where('id', '=', $favorite_prod_id[0]->home_id);
+           }
         }
         return response([
             'Favorite' => json_decode($favorite_table),

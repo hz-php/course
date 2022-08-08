@@ -7,9 +7,16 @@
 
 Аутентификация происходит по токену через laravel passport За регистрацию и авторизацию отвечает контроллер
 UserAuthController.
+Роут на регистрацию и выдачу токена http://site_name/api/register
+Роут на авторизацию и выдачу токена http://site_name/api/login
 
 Так же создан ресурсный api HomeController который отвечает за создание сущности удаление обновление
 и вывод как одной так всех.
+Роут на весь каталог  http://site_name/api/v1/catalog/
+Роут на весь детальную страницу http://site_name/api/v1/catalog/{id}
+Роут на добавление товара http://site_name/catalog/add method post 
+Роут на обновление товара http://site_name/catalog/uppdate/{id} method path
+Роут на удаление товара http://site_name/catalog/delete/{id} method delete
 
 Вывод всех сущностей кэшироуется в редис, также добавлен наблюдатель который при добавлении нового
 объявления очищает кэш.
@@ -17,7 +24,16 @@ UserAuthController.
 Сделаны роуты и создан соответствующий контроллер для помещения товара в избранное удаление и 
 вывода id избранных товаров. Так же вывод всух избранных кешируется в редис и при добавлении нового
 эллемента кеш очищается.
+Просмотр всех избранных http://site_name/favorite/
+Добавление товара в избранное http://site_name/favorite/add method post в request передается id товара
+Удаление товара из избранного http://site_name/favorite/delete method delete
 
 За вывод, добавление, удаления и очистки товаров сравнения отвечает CompareController
+Просмотр страницы сравнения http://site_name/compare
+Добавление товара в сравнение http://site_name/compare/add method post в request передается 
+id товара
+Для очистки страницы сравнения роут http://site_name/compare/destroy method delete
+Для удаления одного товара из сравнения роут http://site_name/compare/del method delete в request
+передаётся id товара
 
 
